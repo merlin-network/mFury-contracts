@@ -230,7 +230,7 @@ subtask("unliquidator-deploy", "Deploys new Unliquidator contract")
         const signer = await getSigner(hre, taskArgs.speed)
 
         const nexusAddress = getChainAddress("Nexus", chain)
-        const treasuryAddress = getChainAddress("mStableDAO", chain)
+        const treasuryAddress = getChainAddress("mFuryDAO", chain)
         const constructorArguments = [nexusAddress, treasuryAddress]
 
         const unliquidator = await deployContract<Unliquidator>(new Unliquidator__factory(signer), "Unliquidator", constructorArguments)

@@ -37,7 +37,7 @@ task("upgrade-imusd-polygon", "Upgrade Polygon imUSD save contract imUSD")
         // Deploy step 1 - Save Contract
         const saveContractImpl = await deployContract<SavingsContractImusdPolygon22>(
             new SavingsContractImusdPolygon22__factory(signer),
-            "mStable: mUSD Savings Contract (imUSD)",
+            "mFury: mUSD Savings Contract (imUSD)",
             constructorArguments,
         )
         await verifyEtherscan(hre, {
@@ -76,7 +76,7 @@ task("upgrade-imusd-mainnet", "Upgrade Mainnet imUSD save contract imUSD")
         // Deploy step 1 -  Save Contract
         const saveContractImpl = await deployContract<SavingsContractImusdMainnet22>(
             new SavingsContractImusdMainnet22__factory(signer),
-            "mStable: mUSD Savings Contract (imUSD)",
+            "mFury: mUSD Savings Contract (imUSD)",
             constructorArguments,
         )
         // Validate the unwrapper is set as constant on the save contract
@@ -121,7 +121,7 @@ task("upgrade-imbtc-mainnet", "Upgrade Mainnet imBTC save contract imBTC")
         // Deploy step 1 -  Save Contract
         const saveContractImpl = await deployContract<SavingsContractImbtcMainnet22>(
             new SavingsContractImbtcMainnet22__factory(signer),
-            "mStable: mBTC Savings Contract (imBTC)",
+            "mFury: mBTC Savings Contract (imBTC)",
             constructorArguments,
         )
         await verifyEtherscan(hre, {

@@ -446,7 +446,7 @@ describe("Fork test Emissions Controller on mainnet", async () => {
             expect(balanceAfter.sub(balanceBefore).gt(simpleToExactAmount(20000)), "has more MTA").to.be.true
         })
         it("to Treasury", async () => {
-            const treasuryAddress = resolveAddress("mStableDAO")
+            const treasuryAddress = resolveAddress("mFuryDAO")
             const balanceBefore = await mta.balanceOf(treasuryAddress)
 
             const tx = await emissionsController.distributeRewards([14])
@@ -869,7 +869,7 @@ describe("Fork test Emissions Controller on mainnet", async () => {
                 expect(balanceAfter.sub(balanceBefore).gt(simpleToExactAmount(20000)), "has more MTA").to.be.true
             })
             it("to Treasury", async () => {
-                const treasuryAddress = resolveAddress("mStableDAO")
+                const treasuryAddress = resolveAddress("mFuryDAO")
                 const balanceBefore = await mta.balanceOf(treasuryAddress)
 
                 const tx = await emissionsController.distributeRewards([14])

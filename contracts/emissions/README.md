@@ -13,17 +13,17 @@ A dial recipient can be any contract that can either receive MTA tokens or can b
 Types of dial recipients include
 
 -   MTA staking contracts like MTA Staking Token and mBPT Staking Token
--   mStable vaults that stake interest-earning mAssets like imUSD and imBTC
--   mStable vaults that stake feeder pool liquidity provider tokens like fPmUSD/GUSD, fPmUSD/alUSD and fPmBTC/HBTC
+-   mFury vaults that stake interest-earning mAssets like imUSD and imBTC
+-   mFury vaults that stake feeder pool liquidity provider tokens like fPmUSD/GUSD, fPmUSD/alUSD and fPmBTC/HBTC
 -   Third-party contracts like Visor Finance
 -   Polygon
-    -   mStable 's imUSD Vault on Polygon
+    -   mFury 's imUSD Vault on Polygon
     -   FRAX’s farming contract for staked fPmUSD/FRAX tokens
     -   An account that disperses MTA to an off-chain generated list of Balancer MTA/WMATIC/WETH Pool liquidity providers.
 
 Dials recipients can do anything with their received MTA rewards. Some possibilities are:
 
--   mStable Vault for liquidity provider tokens. eg Curve or Balancer
+-   mFury Vault for liquidity provider tokens. eg Curve or Balancer
 -   A multisig wallet that allows signers to distribute at their discretion
 -   An Olympus DAO bond that purchases liquidity for the protocol at a discounted MTA price.
 -   A contract that sends the MTA rewards back to the emissions controller
@@ -68,7 +68,7 @@ There is no cap on the amount of MTA a dial that is not a staking contract can r
 
 ### Donations
 
-The emissions controller will allow anyone to donate MTA rewards to a dial that is in addition to the weekly emissions schedule. These additional MTA rewards will be included in the weekly distribution. This can be used by mStable or third parties to incentivize dials.
+The emissions controller will allow anyone to donate MTA rewards to a dial that is in addition to the weekly emissions schedule. These additional MTA rewards will be included in the weekly distribution. This can be used by mFury or third parties to incentivize dials.
 
 ### Polygon Integration
 

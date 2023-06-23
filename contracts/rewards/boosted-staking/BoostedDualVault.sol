@@ -17,7 +17,7 @@ import { StableMath } from "../../shared/StableMath.sol";
 
 /**
  * @title  BoostedDualVault
- * @author mStable
+ * @author mFury
  * @notice Accrues rewards second by second, based on a users boosted balance
  * @dev    Forked from rewards/staking/StakingRewards.sol
  *         Changes:
@@ -94,7 +94,7 @@ contract BoostedDualVault is
     }
 
     /**
-     * @param _nexus mStable system Nexus address
+     * @param _nexus mFury system Nexus address
      * @param _stakingToken token that is being rewarded for being staked. eg MTA, imUSD or fPmUSD/GUSD
      * @param _boostDirector vMTA boost director
      * @param _priceCoeff Rough price of a given LP token, to be used in boost calculations, where $1 = 1e18
@@ -122,7 +122,7 @@ contract BoostedDualVault is
      * @dev Initialization function for upgradable proxy contract.
      *      This function should be called via Proxy just after contract deployment.
      *      To avoid variable shadowing appended `Arg` after arguments name.
-     * @param _rewardsDistributorArg mStable Reward Distributor contract address
+     * @param _rewardsDistributorArg mFury Reward Distributor contract address
      * @param _nameArg token name. eg imUSD Vault or GUSD Feeder Pool Vault
      * @param _symbolArg token symbol. eg v-imUSD or v-fPmUSD/GUSD
      */

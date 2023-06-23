@@ -214,7 +214,7 @@ context("Unwrapper", () => {
         const constructorArguments = [nexusAddress, mUSD.address, unwrapper.address]
         const musdSaveImpl = await deployContract<SavingsContract>(
             new SavingsContract__factory(deployer),
-            "mStable: mUSD Savings Contract",
+            "mFury: mUSD Savings Contract",
             constructorArguments,
         )
 
@@ -279,7 +279,7 @@ context("Unwrapper", () => {
         const constructorArguments = [nexusAddress, mUSD.address, boostDirectorAddress, priceCoeff, boostCoeff, MTA.address]
         const saveVaultImpl = await deployContract<BoostedVault>(
             new BoostedVault__factory(deployer),
-            "mStable: mUSD Savings Vault",
+            "mFury: mUSD Savings Vault",
             constructorArguments,
         )
         await upgradeContract<BoostedVault>(
@@ -343,7 +343,7 @@ context("Unwrapper", () => {
         const constructorArguments = [nexusAddress, mBTC.address, unwrapper.address]
         const saveImpl = await deployContract<SavingsContract>(
             new SavingsContract__factory(deployer),
-            "mStable: mBTC Savings",
+            "mFury: mBTC Savings",
             constructorArguments,
         )
 
@@ -404,7 +404,7 @@ context("Unwrapper", () => {
         const priceCoeff = simpleToExactAmount(4800, 18)
         const boostCoeff = 9
 
-        const saveVaultImpl = await deployContract<BoostedVault>(new BoostedVault__factory(deployer), "mStable: mBTC Savings Vault", [
+        const saveVaultImpl = await deployContract<BoostedVault>(new BoostedVault__factory(deployer), "mFury: mBTC Savings Vault", [
             nexusAddress,
             mBTC.savings,
             boostDirector,

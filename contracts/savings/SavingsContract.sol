@@ -19,7 +19,7 @@ import { YieldValidator } from "../shared/YieldValidator.sol";
 
 /**
  * @title   SavingsContract
- * @author  mStable
+ * @author  mFury
  * @notice  Savings contract uses the ever increasing "exchangeRate" to increase
  *          the value of the Savers "credits" (ERC20) relative to the amount of additional
  *          underlying collateral that has been deposited into this contract ("interest")
@@ -72,7 +72,7 @@ contract SavingsContract is ISavingsContractV4, Initializable, InitializableToke
     uint256 public lastBalance;
     // Fraction of capital assigned to the connector (100% = 1e18)
     uint256 public fraction;
-    // Address of the current connector (all IConnectors are mStable validated)
+    // Address of the current connector (all IConnectors are mFury validated)
     IConnector public connector;
     // How often do we allow pokes
     uint256 private constant POKE_CADENCE = 4 hours;

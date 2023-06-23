@@ -193,7 +193,7 @@ const deploySave = async (
     console.log(`Deployed Savings contract to ${sImpl.address}. gas used ${receiptSaving.gasUsed}`)
 
     // Data
-    const sData = sImpl.interface.encodeFunctionData("initialize", [addresses.poker, "Interest bearing mStable BTC", "imBTC"])
+    const sData = sImpl.interface.encodeFunctionData("initialize", [addresses.poker, "Interest bearing mFury BTC", "imBTC"])
     // Proxy
     console.log(`Deploying Savings Contract proxy, impl: ${sImpl.address}, admin: ${addresses.proxyAdmin}`)
     const sProxy = await new AssetProxy__factory(sender).deploy(sImpl.address, addresses.proxyAdmin, sData)

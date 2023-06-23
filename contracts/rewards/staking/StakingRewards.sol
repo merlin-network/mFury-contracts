@@ -17,7 +17,7 @@ import { Initializable } from "@openzeppelin/contracts/proxy/utils/Initializable
  * @title  StakingRewards
  * @author Originally: Synthetix (forked from /Synthetixio/synthetix/contracts/StakingRewards.sol)
  *         Audit: https://github.com/sigp/public-audits/blob/master/synthetix/unipool/review.pdf
- *         Changes by: mStable
+ *         Changes by: mFury
  * @notice Rewards stakers of a given LP token (a.k.a StakingToken) with RewardsToken, on a pro-rata basis
  * @dev    Uses an ever increasing 'rewardPerTokenStored' variable to distribute rewards
  * each time a write action is called in the contract. This allows for passive reward accrual.
@@ -66,7 +66,7 @@ contract StakingRewards is
     event RewardPaid(address indexed user, uint256 reward);
 
     /**
-     * @param _nexus mStable system Nexus address
+     * @param _nexus mFury system Nexus address
      * @param _stakingToken token that is beinf rewarded for being staked. eg MTA, imUSD or fPmUSD/GUSD
      * @param _rewardsToken first token that is being distributed as a reward. eg MTA
      * @param _duration length of each staking period in seconds. 7 days = 604,800; 3 months = 7,862,400
@@ -85,7 +85,7 @@ contract StakingRewards is
      * @dev Initialization function for upgradable proxy contract.
      *      This function should be called via Proxy just after contract deployment.
      *      To avoid variable shadowing appended `Arg` after arguments name.
-     * @param _rewardsDistributorArg mStable Reward Distributor contract address
+     * @param _rewardsDistributorArg mFury Reward Distributor contract address
      * @param _nameArg token name. eg imUSD Vault or GUSD Feeder Pool Vault
      * @param _symbolArg token symbol. eg v-imUSD or v-fPmUSD/GUSD
      */

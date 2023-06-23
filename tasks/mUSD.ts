@@ -119,7 +119,7 @@ task("mUSD-snap", "Snaps mUSD")
                     address: "0x8474ddbe98f5aa3179b3b3f5942d724afcdec9f6",
                 },
                 {
-                    name: "mStable DAO",
+                    name: "mFury DAO",
                     address: "0x3dd46846eed8D147841AE162C8425c08BD8E1b41",
                 },
                 {

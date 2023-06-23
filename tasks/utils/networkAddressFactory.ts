@@ -9,7 +9,7 @@ export const contractNames = [
     "ProtocolDAO",
     "Governor",
     "FundManager",
-    "mStableDAO",
+    "mFuryDAO",
     "BadgerSafe",
     "SavingsManager",
     "Liquidator",
@@ -61,7 +61,7 @@ export const contractNames = [
     "UniswapQuoterV3",
     "UniswapEthToken",
     "UniswapV2-MTA/WETH",
-    "MStableYieldSource", // Used for PoolTogether
+    "MFuryYieldSource", // Used for PoolTogether
     "OperationsSigner",
     "ENSRegistrarController",
     "ENSResolver",
@@ -105,7 +105,7 @@ export const getChainAddress = (contractName: ContractNames, chain: Chain): stri
             case "BalancerRecipient":
             case "FundManager":
                 return "0x437E8C54Db5C66Bb3D80D2FF156e9bfe31a017db"
-            case "mStableDAO":
+            case "mFuryDAO":
                 return "0x3dd46846eed8D147841AE162C8425c08BD8E1b41"
             case "SavingsManager":
                 return "0xBC3B550E0349D74bF5148D86114A48C3B4Aa856F"
@@ -190,7 +190,7 @@ export const getChainAddress = (contractName: ContractNames, chain: Chain): stri
                 return "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
             case "UniswapV2-MTA/WETH":
                 return "0x9B4abA35b35EEE7481775cCB4055Ce4e176C9a6F"
-            case "MStableYieldSource":
+            case "MFuryYieldSource":
                 return "0xdB4C9f763A4B13CF2830DFe7c2854dADf5b96E99"
             case "OperationsSigner":
                 return "0xB81473F20818225302b8FfFB905B53D58a793D84"
@@ -259,7 +259,7 @@ export const getChainAddress = (contractName: ContractNames, chain: Chain): stri
                 return "0x9A718E9B80F7D7006E891051ba4790C6fc839268"
             case "QuickSwapRouter":
                 return "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff"
-            case "MStableYieldSource":
+            case "MFuryYieldSource":
                 return "0x13bA0402f5047324B4279858298F56c30EA98753"
             case "OperationsSigner":
                 return "0xdccb7a6567603af223c090be4b9c83eced210f18"
@@ -389,7 +389,7 @@ export const resolveAddress = (
         if (resolvedAddressesInstances[addressContractNameSymbol]?.[tokenType])
             return resolvedAddressesInstances[addressContractNameSymbol][tokenType]
 
-        // If an mStable contract name
+        // If an mFury contract name
         address = getChainAddress(addressContractNameSymbol as ContractNames, chain)
 
         if (!address) {

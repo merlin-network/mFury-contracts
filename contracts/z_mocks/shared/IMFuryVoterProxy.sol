@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.6;
 
-interface IMStableVoterProxy {
+interface IMFuryVoterProxy {
     function createLock(uint256 _endTime) external;
 
     function harvestMta() external;

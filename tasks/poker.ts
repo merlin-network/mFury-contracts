@@ -71,7 +71,7 @@ task("over-boost", "Pokes accounts that are over boosted")
             const vaultAccountIds = vaultAddresses.map((vaultAddress) => `"${vaultAddress}.${taskArgs.account.toLowerCase()}" `)
             idFilter = `id_in: [${vaultAccountIds}] `
         }
-        const gqlClient = new GraphQLClient("https://api.studio.thegraph.com/query/948/mstable-feeder-pools-and-vaults/v0.0.8")
+        const gqlClient = new GraphQLClient("https://api.studio.thegraph.com/query/948/mfury-feeder-pools-and-vaults/v0.0.8")
         const query = gql`
             {
                 boostedSavingsVaults {

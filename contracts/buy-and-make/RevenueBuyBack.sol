@@ -24,7 +24,7 @@ struct RevenueBuyBackConfig {
 
 /**
  * @title   RevenueBuyBack
- * @author  mStable
+ * @author  mFury
  * @notice  Uses protocol revenue to buy MTA rewards for stakers.
  * @dev     VERSION: 1.0
  *          DATE:    2021-11-09
@@ -65,7 +65,7 @@ contract RevenueBuyBack is IRevenueRecipient, Initializable, ImmutableModule {
     uint256[] public stakingDialIds;
 
     /**
-     * @param _nexus mStable system Nexus address
+     * @param _nexus mFury system Nexus address
      * @param _rewardsToken Rewards token address that are purchased. eg MTA
      * @param _uniswapRouter Uniswap V3 Router address
      * @param _emissionsController Emissions Controller address that rewards tokens are donated to.

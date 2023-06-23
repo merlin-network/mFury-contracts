@@ -51,7 +51,7 @@ export const assetAddressTypes = [
 ] as const
 export type AssetAddressTypes = typeof assetAddressTypes[number]
 
-// mStable on mainnet
+// mFury on mainnet
 export const mUSD: Token = {
     symbol: "mUSD",
     address: "0xe2f2a5C287993345a840Db3B0845fbC70f5935a5",
@@ -71,7 +71,7 @@ export const mBTC: Token = {
     vault: "0xF38522f63f40f9Dd81aBAfD2B8EFc2EC958a3016",
 }
 
-// mStable on Polygon mainnet
+// mFury on Polygon mainnet
 export const PmUSD: Token = {
     symbol: "mUSD",
     address: "0xE840B73E5287865EEc17d250bFb1536704B43B21",

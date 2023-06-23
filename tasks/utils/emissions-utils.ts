@@ -374,7 +374,7 @@ export const deploySplitRevenueBuyBack = async (
     const mtaAddress = resolveAddress("MTA", chain)
     const uniswapRouterAddress = resolveAddress("UniswapRouterV3", chain)
     const emissionsControllerAddress = resolveAddress("EmissionsController", chain)
-    const treasuryAddress = resolveAddress("mStableDAO", chain)
+    const treasuryAddress = resolveAddress("mFuryDAO", chain)
 
     // Deploy RevenueBuyBack
     const constructorArguments: [string, string, string, string] = [

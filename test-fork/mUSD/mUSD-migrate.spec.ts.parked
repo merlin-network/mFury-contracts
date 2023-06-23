@@ -16,7 +16,7 @@ import {
     AaveV2Integration,
 } from "types/generated"
 import { MV1LibraryAddresses } from "types/generated/factories/MV1__factory"
-import { BassetStatus } from "@utils/mstable-objects"
+import { BassetStatus } from "@utils/mfury-objects"
 import { increaseTime } from "@utils/time"
 import { assertBNClosePercent } from "@utils/assertions"
 
@@ -229,7 +229,7 @@ const getMusdv2 = async (deployer: Signer): Promise<DeployedMusdV2> => {
 // Test mUSD token storage variables
 const validateTokenStorage = async (token: MusdV2 | Masset | Contract, overrideSupply = "45324535157903774527261941") => {
     expect(await token.symbol(), "symbol").to.eq("mUSD")
-    expect(await token.name(), "name").to.eq("mStable USD")
+    expect(await token.name(), "name").to.eq("mFury USD")
     expect(await token.decimals(), "decimals").to.eq(18)
     // some mUSD token holder
     expect(await token.balanceOf("0x5C80E54f903458edD0723e268377f5768C7869d7"), `mUSD balance`).to.eq("6971708003000000000000")
@@ -491,7 +491,7 @@ const validateFlashLoan = async (
  * Data
  * ------------------------------
  * mUSD proxy address: 0xe2f2a5C287993345a840Db3B0845fbC70f5935a5
- * Current implementation: 0xe0d0d052d5b1082e52c6b8422acd23415c3df1c4 & https://github.com/mstable/mStable-contracts/blob/6d935eb8c8797e240a7e9fde7603c90d730608ce/contracts/masset/Masset.sol
+ * Current implementation: 0xe0d0d052d5b1082e52c6b8422acd23415c3df1c4 & https://github.com/mfury/mFury-contracts/blob/6d935eb8c8797e240a7e9fde7603c90d730608ce/contracts/masset/Masset.sol
  * New implementation: ../../contracts/masset/mUSD/MusdV2.sol
  * Contract diff vs current implementation: https://www.diffchecker.com/QqxVbKxb
  * Contract diff vs Masset.sol: https://www.diffchecker.com/jwpfAgVK

@@ -27,7 +27,7 @@ import { keccak256, toUtf8Bytes } from "ethers/lib/utils"
 
 const governorAddress = resolveAddress("Governor")
 const liquidatorAddress = resolveAddress("Liquidator")
-const treasuryAddress = resolveAddress("mStableDAO")
+const treasuryAddress = resolveAddress("mFuryDAO")
 
 const ethWhaleAddress = "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
 

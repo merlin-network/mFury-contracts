@@ -80,7 +80,7 @@ export const hardhatConfig = {
     },
     tenderly: {
         username: "alsco77",
-        project: "mStable",
+        project: "mFury",
     },
     etherscan: {
         apiKey: process.env.ETHERSCAN_KEY,

@@ -28,7 +28,7 @@ import {
     InstantProxyAdmin__factory,
     DelayedProxyAdmin,
     InstantProxyAdmin,
-    IMStableVoterProxy__factory,
+    IMFuryVoterProxy__factory,
     IncentivisedVotingLockup__factory,
     BoostedVault__factory,
     StakedToken,
@@ -43,7 +43,7 @@ import { getChainAddress, resolveAddress } from "../../tasks/utils/networkAddres
 
 const governorAddress = resolveAddress("Governor")
 const deployerAddress = resolveAddress("OperationsSigner")
-const mStableVoterProxy = resolveAddress("VoterProxy")
+const mFuryVoterProxy = resolveAddress("VoterProxy")
 const sharedBadgerGov = resolveAddress("BadgerSafe")
 const questSignerAddress = resolveAddress("QuestSigner")
 const ethWhaleAddress = "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
@@ -358,7 +358,7 @@ context("StakedToken deployments and vault upgrades", () => {
                 )
         })
         it.skip("whitelists Badger voterproxy", async () => {
-            await deployedContracts.stakedTokenMTA.connect(governor).whitelistWrapper(mStableVoterProxy)
+            await deployedContracts.stakedTokenMTA.connect(governor).whitelistWrapper(mFuryVoterProxy)
         })
     })
     context("3. Vault upgrades", () => {
@@ -681,7 +681,7 @@ context("StakedToken deployments and vault upgrades", () => {
     context("6. Test Badger migration", () => {
         it("should allow badger to stake in new contract", async () => {
             const badgerGovSigner = await impersonate(sharedBadgerGov)
-            const voterProxy = IMStableVoterProxy__factory.connect(mStableVoterProxy, badgerGovSigner)
+            const voterProxy = IMFuryVoterProxy__factory.connect(mFuryVoterProxy, badgerGovSigner)
             // 1. it should fail to change addr unless exited - this can be skipped as bias is now 0
             // await expect(voterProxy.changeLockAddress(deployedContracts.stakedTokenMTA.address)).to.be.revertedWith("Active lockup")
             // 2. Exit from old (exit)

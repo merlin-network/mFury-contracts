@@ -173,7 +173,7 @@ context("SavingContract Vault4626 upgrades", () => {
             it("Upgrades the imUSD contract", async () => {
                 const musdSaveImpl = await deployContract<SavingsContractImusdMainnet22>(
                     new SavingsContractImusdMainnet22__factory(deployer),
-                    "mStable: mUSD Savings Contract",
+                    "mFury: mUSD Savings Contract",
                     [],
                 )
 
@@ -199,7 +199,7 @@ context("SavingContract Vault4626 upgrades", () => {
                 const constructorArguments = [nexusAddress, mbtcAddress, unwrapper.address]
                 const mbtcSaveImpl = await deployContract<SavingsContractImbtcMainnet22>(
                     new SavingsContractImbtcMainnet22__factory(deployer),
-                    "mStable: mBTC Savings",
+                    "mFury: mBTC Savings",
                     constructorArguments,
                 )
 

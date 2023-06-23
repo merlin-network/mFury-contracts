@@ -25,7 +25,7 @@ import {
 } from "types/generated"
 import { BN, minimum, simpleToExactAmount } from "@utils/math"
 import { fullScale, ratioScale, ZERO_ADDRESS, DEAD_ADDRESS } from "@utils/constants"
-import { Basset } from "@utils/mstable-objects"
+import { Basset } from "@utils/mfury-objects"
 import { EthAddress } from "types/common"
 import { StandardAccounts } from "./standardAccounts"
 import { ActionDetails, ATokenDetails, BasketComposition, BassetIntegrationDetails } from "../../types/machines"
@@ -138,7 +138,7 @@ export class MassetMachine {
         const impl = (await MassetFactory.deploy(nexus.address, simpleToExactAmount(5, 13))) as Masset
 
         const data = impl.interface.encodeFunctionData("initialize", [
-            "mStable BTC",
+            "mFury BTC",
             "mBTC",
             bAssets.bAssets.map((b, i) => ({
                 addr: b.address,
@@ -281,7 +281,7 @@ export class MassetMachine {
     //     // Initialize proxy
     //     const initializationData_mUSD: string = d_mUSD.contract.methods
     //         .initialize(
-    //             "mStable Mock",
+    //             "mFury Mock",
     //             "mMOCK",
     //             this.system.nexus.address,
     //             d_ForgeValidator.address,

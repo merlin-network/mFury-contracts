@@ -367,7 +367,7 @@ task("deploy-polly", "Deploys mUSD & System to a Polygon network")
         }
         const txMusd = await mUsd.initialize(
             "mUSD",
-            "mStable USD (Polygon PoS)",
+            "mFury USD (Polygon PoS)",
             deployedUsdBassets.map((b) => ({
                 addr: b.bAssetContract.address,
                 integrator: network.name === "polygon_mainnet" ? integrator.address : ZERO_ADDRESS,
@@ -397,7 +397,7 @@ task("deploy-polly", "Deploys mUSD & System to a Polygon network")
             delayedProxyAdmin,
             DEAD_ADDRESS,
             "imUSD",
-            "Interest bearing mStable USD (Polygon PoS)",
+            "Interest bearing mFury USD (Polygon PoS)",
         )
 
         await sleep(sleepTime)

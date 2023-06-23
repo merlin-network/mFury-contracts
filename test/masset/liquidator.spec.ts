@@ -78,7 +78,7 @@ describe("Liquidator", () => {
     // - Upgrade COMP
     const redeployLiquidator = async () => {
         // Fake mUSD
-        mUSD = await new MockMasset__factory(sa.default.signer).deploy("mStable USD", "mUSD", 18, sa.fundManager.address, 100000000)
+        mUSD = await new MockMasset__factory(sa.default.signer).deploy("mFury USD", "mUSD", 18, sa.fundManager.address, 100000000)
         // Set up Comp Integration
         bAsset = await new MockERC20__factory(sa.default.signer).deploy("Mock1", "MK1", 18, sa.fundManager.address, 100000000)
         bAsset2 = await new MockERC20__factory(sa.default.signer).deploy("Mock2", "MK2", 18, sa.fundManager.address, 100000000)

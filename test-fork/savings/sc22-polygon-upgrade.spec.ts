@@ -154,7 +154,7 @@ context("SavingContract Vault4626 upgrades", () => {
                 const constructorArguments = [nexusAddress, musdAddress, unwrapper.address]
                 const musdSaveImpl = await deployContract<SavingsContractImusdPolygon22>(
                     new SavingsContractImusdPolygon22__factory(deployer),
-                    "mStable: mUSD Savings Contract",
+                    "mFury: mUSD Savings Contract",
                     constructorArguments,
                 )
                 const saveContractProxy = await upgradeContract<SavingsContractImusdPolygon22>(

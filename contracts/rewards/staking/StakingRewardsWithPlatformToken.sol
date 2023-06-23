@@ -18,7 +18,7 @@ import { Initializable } from "@openzeppelin/contracts/proxy/utils/Initializable
 
 /**
  * @title  StakingRewardsWithPlatformToken
- * @author mStable
+ * @author mFury
  * @notice Rewards stakers of a given LP token (a.k.a StakingToken) with RewardsToken, on a pro-rata basis
  * additionally, distributes the Platform token airdropped by the platform
  * @dev    Derives from ./StakingRewards.sol and implements a secondary token into the core logic
@@ -69,7 +69,7 @@ contract StakingRewardsWithPlatformToken is
     event RewardPaid(address indexed user, uint256 reward, uint256 platformReward);
 
     /**
-     * @param _nexus mStable system Nexus address
+     * @param _nexus mFury system Nexus address
      * @param _stakingToken token that is beinf rewarded for being staked. eg MTA, imUSD or fPmUSD/GUSD
      * @param _rewardsToken first token that is being distributed as a reward. eg MTA
      * @param _platformToken second token that is being distributed as a reward. eg wMATIC on Polygon
@@ -91,7 +91,7 @@ contract StakingRewardsWithPlatformToken is
      * @dev Initialization function for upgradable proxy contract.
      *      This function should be called via Proxy just after contract deployment.
      *      To avoid variable shadowing appended `Arg` after arguments name.
-     * @param _rewardsDistributorArg mStable Reward Distributor contract address
+     * @param _rewardsDistributorArg mFury Reward Distributor contract address
      * @param _nameArg token name. eg imUSD Vault or GUSD Feeder Pool Vault
      * @param _symbolArg token symbol. eg v-imUSD or v-fPmUSD/GUSD
      */

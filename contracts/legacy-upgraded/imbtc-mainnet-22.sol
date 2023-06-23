@@ -643,7 +643,7 @@ contract ModuleKeys {
     bytes32 internal constant KEY_PROXY_ADMIN =
         0x96ed0203eb7e975a4cbcaa23951943fa35c5d8288117d50c12b3d48b0fab48d1;
 
-    // mStable
+    // mFury
     // =======
     // keccak256("OracleHub");
     bytes32 internal constant KEY_ORACLE_HUB =
@@ -1080,7 +1080,7 @@ library StableMath {
 
 /**
  * @title   SavingsContract
- * @author  mStable
+ * @author  mFury
  * @notice  Savings contract uses the ever increasing "exchangeRate" to increase
  *          the value of the Savers "credits" (ERC20) relative to the amount of additional
  *          underlying collateral that has been deposited into this contract ("interest")
@@ -1138,7 +1138,7 @@ contract SavingsContract_imbtc_mainnet_22 is
     uint256 public lastBalance;
     // Fraction of capital assigned to the connector (100% = 1e18)
     uint256 public fraction;
-    // Address of the current connector (all IConnectors are mStable validated)
+    // Address of the current connector (all IConnectors are mFury validated)
     IConnector public connector;
     // How often do we allow pokes
     uint256 private constant POKE_CADENCE = 4 hours;

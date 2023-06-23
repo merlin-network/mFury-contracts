@@ -13,7 +13,7 @@ import { IUniswapV3SwapRouter } from "../peripheral/Uniswap/IUniswapV3SwapRouter
 
 /**
  * @title   RevenueSplitBuyBack
- * @author  mStable
+ * @author  mFury
  * @notice  Uses governance fees to buy MTA rewards for stakers. Updated Version sends some governance fees to treasury.
  * @dev     VERSION: 2.0
  *          DATE:    2022-04-17
@@ -56,7 +56,7 @@ contract RevenueSplitBuyBack is IRevenueRecipient, Initializable, ImmutableModul
     address public treasury;
 
     /**
-     * @param _nexus mStable system Nexus address
+     * @param _nexus mFury system Nexus address
      * @param _rewardsToken Rewards token address that are purchased. eg MTA
      * @param _uniswapRouter Uniswap V3 Router address
      * @param _emissionsController Emissions Controller address that rewards tokens are donated to.
