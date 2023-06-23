@@ -82,8 +82,8 @@ describe("RevenueSplitBuyBack", () => {
         // Add rewards to Uniswap
         await rewardsToken.transfer(uniswap.address, simpleToExactAmount(500000))
         // Add bAsset to rewards exchange rates
-        await uniswap.setRate(bAsset1.address, rewardsToken.address, simpleToExactAmount(80, 16)) // 0.8 MTA/USD
-        await uniswap.setRate(bAsset2.address, rewardsToken.address, simpleToExactAmount(50, 33)) // 50,000 MTA/BTC
+        await uniswap.setRate(bAsset1.address, rewardsToken.address, simpleToExactAmount(80, 16)) // 0.8 FURY/USD
+        await uniswap.setRate(bAsset2.address, rewardsToken.address, simpleToExactAmount(50, 33)) // 50,000 FURY/BTC
         // Uniswap paths
         uniswapMusdBasset1Paths = encodeUniswapPath([bAsset1.address, DEAD_ADDRESS, rewardsToken.address], [3000, 3000])
         uniswapMbtcBasset2Paths = encodeUniswapPath([bAsset2.address, DEAD_ADDRESS, rewardsToken.address], [3000, 3000])
@@ -265,7 +265,7 @@ describe("RevenueSplitBuyBack", () => {
             })
         })
     })
-    describe("buy back MTA rewards", () => {
+    describe("buy back FURY rewards", () => {
         const musdRevenue = simpleToExactAmount(20000)
         const mbtcRevenue = simpleToExactAmount(2)
         let bAsset1Amount: BigNumber
@@ -287,16 +287,16 @@ describe("RevenueSplitBuyBack", () => {
 
             // bAssets bought = ((1e18 - treasury fee) / 1e18) * (98 / 100)
             bAsset1Amount = musdRevenue.mul(simpleToExactAmount(1).sub(treasuryFee)).div(simpleToExactAmount(1)).mul(98).div(100)
-            // Exchange rate = 0.80 MTA/USD = 8 / 18
+            // Exchange rate = 0.80 FURY/USD = 8 / 18
             // Swap fee is 0.3% = 997 / 1000
             musdRewardsAmount = bAsset1Amount.mul(8).div(10).mul(997).div(1000)
             // bAssets bought = ((1e18 - treasury fee) / 1e18 ) * (98 / 100) / 1e12
             bAsset2Amount = mbtcRevenue.mul(simpleToExactAmount(1).sub(treasuryFee)).div(simpleToExactAmount(1)).mul(98).div(100).div(1e12)
-            // Exchange rate = 50,000 MTA/BTC
+            // Exchange rate = 50,000 FURY/BTC
             // Swap fee is 0.3% = 997 / 1000
             mbtcRewardsAmount = bAsset2Amount.mul(50000).mul(997).div(1000).mul(1e12)
         })
-        it("should sell mUSD for MTA and send treasury fee to treasury", async () => {
+        it("should sell mUSD for FURY and send treasury fee to treasury", async () => {
             expect(await mUSD.balanceOf(revenueBuyBack.address), "revenueBuyBack's mUSD Bal before").to.eq(musdRevenue)
             expect(await bAsset1.balanceOf(mUSD.address), "mAsset's bAsset Bal before").to.eq(musdRevenue)
             expect(await mUSD.balanceOf(await treasury.getAddress()), "treasury's mUSD Bal before").to.eq(0)
@@ -313,7 +313,7 @@ describe("RevenueSplitBuyBack", () => {
             expect(await mUSD.balanceOf(await treasury.getAddress()), "treasury's mUSD Bal after").to.gt(0)
             expect(await rewardsToken.balanceOf(revenueBuyBack.address), "revenueBuyBack's rewards Bal after").to.gt(0)
         })
-        it("should sell mBTC for MTA and send treasury fee to treasury", async () => {
+        it("should sell mBTC for FURY and send treasury fee to treasury", async () => {
             expect(await mBTC.balanceOf(revenueBuyBack.address), "revenueBuyBack's mBTC Bal before").to.eq(mbtcRevenue)
             expect(await bAsset2.balanceOf(mBTC.address), "mAsset's bAsset Bal before").to.eq(mbtcRevenue.div(1e12))
             expect(await mUSD.balanceOf(await treasury.getAddress()), "treasury's mUSD Bal before").to.eq(0)
@@ -329,7 +329,7 @@ describe("RevenueSplitBuyBack", () => {
             expect(await mBTC.balanceOf(revenueBuyBack.address), "revenueBuyBack's mBTC Bal after").to.eq(0)
             expect(await mBTC.balanceOf(await treasury.getAddress()), "treasury's mUSD Bal after").to.gt(0)
         })
-        it("should sell mUSD and mBTC for MTA and send treasury fee to treasury", async () => {
+        it("should sell mUSD and mBTC for FURY and send treasury fee to treasury", async () => {
             const tx = revenueBuyBack
                 .connect(sa.keeper.signer)
                 .buyBackRewards(
@@ -352,7 +352,7 @@ describe("RevenueSplitBuyBack", () => {
             expect(await mUSD.balanceOf(await treasury.getAddress()), "treasury's mUSD Bal after").to.gt(0)
             expect(await mBTC.balanceOf(await treasury.getAddress()), "treasury's mBTC Bal after").to.gt(0)
         })
-        it("should sell all mUSD for MTA with nothing to treasury", async () => {
+        it("should sell all mUSD for FURY with nothing to treasury", async () => {
             // Change config so no revenue is sent to treasury
             await revenueBuyBack.connect(sa.governor.signer).setTreasuryFee(0)
 
@@ -416,7 +416,7 @@ describe("RevenueSplitBuyBack", () => {
                     .connect(sa.keeper.signer)
                     .buyBackRewards([mUSD.address], [bAsset1Amount.add(1)], [musdRewardsAmount], [uniswapMusdBasset1Paths.encoded])
                 await expect(tx).to.revertedWith("bAsset qty < min qty")
-                expect(await rewardsToken.balanceOf(revenueBuyBack.address), "RevenueBuyBack MTA bal after").to.eq(0)
+                expect(await rewardsToken.balanceOf(revenueBuyBack.address), "RevenueBuyBack FURY bal after").to.eq(0)
             })
             it("No minRewardsAmounts", async () => {
                 const tx = revenueBuyBack
@@ -429,12 +429,12 @@ describe("RevenueSplitBuyBack", () => {
                     .connect(sa.keeper.signer)
                     .buyBackRewards([mUSD.address], [bAsset1Amount], [musdRewardsAmount.add(1)], [uniswapMusdBasset1Paths.encoded])
                 await expect(tx).to.revertedWith("Too little received")
-                expect(await rewardsToken.balanceOf(revenueBuyBack.address), "RevenueBuyBack MTA bal after").to.eq(0)
+                expect(await rewardsToken.balanceOf(revenueBuyBack.address), "RevenueBuyBack FURY bal after").to.eq(0)
             })
             it("No uniswapPaths", async () => {
                 const tx = revenueBuyBack.connect(sa.keeper.signer).buyBackRewards([mUSD.address], [bAsset1Amount], [musdRewardsAmount], [])
                 await expect(tx).to.revertedWith("Invalid uniswapPaths")
-                expect(await rewardsToken.balanceOf(revenueBuyBack.address), "RevenueBuyBack MTA bal after").to.eq(0)
+                expect(await rewardsToken.balanceOf(revenueBuyBack.address), "RevenueBuyBack FURY bal after").to.eq(0)
             })
             describe("uniswap path", () => {
                 it("zero", async () => {

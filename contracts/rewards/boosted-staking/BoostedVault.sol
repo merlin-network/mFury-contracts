@@ -40,7 +40,7 @@ contract BoostedVault is
     event Poked(address indexed user);
     event RewardPaid(address indexed user, uint256 reward);
 
-    /// @notice token the rewards are distributed in. eg MTA
+    /// @notice token the rewards are distributed in. eg FURY
     IERC20 public immutable rewardsToken;
 
     /// @notice length of each staking period in seconds. 7 days = 604,800; 3 months = 7,862,400
@@ -79,11 +79,11 @@ contract BoostedVault is
 
     /**
      * @param _nexus mFury system Nexus address
-     * @param _stakingToken token that is beinf rewarded for being staked. eg MTA, imUSD or fPmUSD/GUSD
-     * @param _boostDirector vMTA boost director
+     * @param _stakingToken token that is beinf rewarded for being staked. eg FURY, imUSD or fPmUSD/GUSD
+     * @param _boostDirector vFURY boost director
      * @param _priceCoeff Rough price of a given LP token, to be used in boost calculations, where $1 = 1e18
      * @param _boostCoeff  Boost coefficent using the the boost formula
-     * @param _rewardsToken first token that is being distributed as a reward. eg MTA
+     * @param _rewardsToken first token that is being distributed as a reward. eg FURY
      */
     constructor(
         address _nexus,

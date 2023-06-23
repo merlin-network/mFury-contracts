@@ -5,7 +5,7 @@ import { getSigner } from "./utils/signerFactory"
 import { logTxDetails } from "./utils/deploy-utils"
 import { getChain, getChainAddress, resolveAddress } from "./utils/networkAddressFactory"
 
-task("eject-stakers", "Ejects expired stakers from Meta staking contract (vMTA)")
+task("eject-stakers", "Ejects expired stakers from Meta staking contract (vFURY)")
     .addOptionalParam("speed", "Defender Relayer speed param: 'safeLow' | 'average' | 'fast' | 'fastest'", "average", types.string)
     .setAction(async (taskArgs, hre) => {
         const signer = await getSigner(hre, taskArgs.speed)
@@ -30,62 +30,62 @@ task("eject-stakers", "Ejects expired stakers from Meta staking contract (vMTA)"
         await logTxDetails(tx, "ejectMany")
     })
 
-subtask("vmta-expire", "Expire old staking V1 contract")
+subtask("vfury-expire", "Expire old staking V1 contract")
     .addOptionalParam("speed", "Defender Relayer speed param: 'safeLow' | 'average' | 'fast' | 'fastest'", "average", types.string)
     .setAction(async (taskArgs, hre) => {
         const signer = await getSigner(hre, taskArgs.speed)
         const chain = getChain(hre)
 
-        const vmtaAddress = resolveAddress("vMTA", chain)
-        const vmta = IncentivisedVotingLockup__factory.connect(vmtaAddress, signer)
-        const tx = await vmta.expireContract()
-        await logTxDetails(tx, "Expire old V1 MTA staking contract")
+        const vfuryAddress = resolveAddress("vFURY", chain)
+        const vfury = IncentivisedVotingLockup__factory.connect(vfuryAddress, signer)
+        const tx = await vfury.expireContract()
+        await logTxDetails(tx, "Expire old V1 FURY staking contract")
     })
-task("vmta-expire").setAction(async (_, __, runSuper) => {
+task("vfury-expire").setAction(async (_, __, runSuper) => {
     await runSuper()
 })
 
-subtask("vmta-withdraw", "Withdraw MTA from old Staking V1 contract")
+subtask("vfury-withdraw", "Withdraw FURY from old Staking V1 contract")
     .addOptionalParam("speed", "Defender Relayer speed param: 'safeLow' | 'average' | 'fast' | 'fastest'", "average", types.string)
     .setAction(async (taskArgs, hre) => {
         const signer = await getSigner(hre, taskArgs.speed, false)
         const chain = getChain(hre)
 
-        const vmtaAddress = resolveAddress("vMTA", chain)
-        const vmta = IncentivisedVotingLockup__factory.connect(vmtaAddress, signer)
-        const tx = await vmta.withdraw()
-        await logTxDetails(tx, "Withdraw MTA from Staking V1 contract")
+        const vfuryAddress = resolveAddress("vFURY", chain)
+        const vfury = IncentivisedVotingLockup__factory.connect(vfuryAddress, signer)
+        const tx = await vfury.withdraw()
+        await logTxDetails(tx, "Withdraw FURY from Staking V1 contract")
     })
-task("vmta-withdraw").setAction(async (_, __, runSuper) => {
+task("vfury-withdraw").setAction(async (_, __, runSuper) => {
     await runSuper()
 })
 
-subtask("vmta-claim", "Claim MTA from old Staking V1 contract")
+subtask("vfury-claim", "Claim FURY from old Staking V1 contract")
     .addOptionalParam("speed", "Defender Relayer speed param: 'safeLow' | 'average' | 'fast' | 'fastest'", "average", types.string)
     .setAction(async (taskArgs, hre) => {
         const signer = await getSigner(hre, taskArgs.speed, false)
         const chain = getChain(hre)
 
-        const vmtaAddress = resolveAddress("vMTA", chain)
-        const vmta = IncentivisedVotingLockup__factory.connect(vmtaAddress, signer)
-        const tx = await vmta.claimReward()
-        await logTxDetails(tx, "Claim MTA from old Staking V2 contract")
+        const vfuryAddress = resolveAddress("vFURY", chain)
+        const vfury = IncentivisedVotingLockup__factory.connect(vfuryAddress, signer)
+        const tx = await vfury.claimReward()
+        await logTxDetails(tx, "Claim FURY from old Staking V2 contract")
     })
-task("vmta-claim").setAction(async (_, __, runSuper) => {
+task("vfury-claim").setAction(async (_, __, runSuper) => {
     await runSuper()
 })
 
-subtask("vmta-exit", "Withdraw and claim MTA from old Staking V1 contract")
+subtask("vfury-exit", "Withdraw and claim FURY from old Staking V1 contract")
     .addOptionalParam("speed", "Defender Relayer speed param: 'safeLow' | 'average' | 'fast' | 'fastest'", "average", types.string)
     .setAction(async (taskArgs, hre) => {
         const signer = await getSigner(hre, taskArgs.speed, false)
         const chain = getChain(hre)
 
-        const vmtaAddress = resolveAddress("vMTA", chain)
-        const vmta = IncentivisedVotingLockup__factory.connect(vmtaAddress, signer)
-        const tx = await vmta.exit()
-        await logTxDetails(tx, "Withdraw and claim MTA from old Staking V2 contract")
+        const vfuryAddress = resolveAddress("vFURY", chain)
+        const vfury = IncentivisedVotingLockup__factory.connect(vfuryAddress, signer)
+        const tx = await vfury.exit()
+        await logTxDetails(tx, "Withdraw and claim FURY from old Staking V2 contract")
     })
-task("vmta-exit").setAction(async (_, __, runSuper) => {
+task("vfury-exit").setAction(async (_, __, runSuper) => {
     await runSuper()
 })

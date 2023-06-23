@@ -80,7 +80,7 @@ task("l2-emission-dist").setAction(async (_, __, runSuper) => {
     await runSuper()
 })
 
-subtask("emission-disperse-bal", "Disperse Polygon Balancer Pool MTA rewards in a DisperseForwarder contract")
+subtask("emission-disperse-bal", "Disperse Polygon Balancer Pool FURY rewards in a DisperseForwarder contract")
     .addParam("report", "Report number from the bal-mining-script repo. eg 79", undefined, types.int)
     .addOptionalParam("speed", "Defender Relayer speed param: 'safeLow' | 'average' | 'fast' | 'fastest'", "fast", types.string)
     .setAction(async (taskArgs, hre) => {
@@ -90,17 +90,17 @@ subtask("emission-disperse-bal", "Disperse Polygon Balancer Pool MTA rewards in 
         const disperseForwarderAddress = resolveAddress("DisperseForwarder", chain)
         const disperseForwarder = DisperseForwarder__factory.connect(disperseForwarderAddress, signer)
 
-        const mtaAddress = resolveAddress("MTA", chain)
+        const furyAddress = resolveAddress("FURY", chain)
 
-        const mtaToken = IERC20__factory.connect(mtaAddress, signer)
+        const furyToken = IERC20__factory.connect(furyAddress, signer)
 
-        // Get the amount of MTA in the DisperseForwarder contract
-        const mtaBalance = await mtaToken.balanceOf(disperseForwarderAddress)
+        // Get the amount of FURY in the DisperseForwarder contract
+        const furyBalance = await furyToken.balanceOf(disperseForwarderAddress)
         try {
-            // Get the proportion the MTA balance in the DisperseForwarder contract to the recipients based off the bal-mining-script report.
-            const { disperser } = await getBalancerPolygonReport(taskArgs.report, mtaBalance)
+            // Get the proportion the FURY balance in the DisperseForwarder contract to the recipients based off the bal-mining-script report.
+            const { disperser } = await getBalancerPolygonReport(taskArgs.report, furyBalance)
             const tx = await disperseForwarder.disperseToken(disperser.recipients, disperser.values)
-            await logTxDetails(tx, `Disperse Balancer Pool MTA rewards ${disperser.total}  to ${disperser.recipients} recipients`)
+            await logTxDetails(tx, `Disperse Balancer Pool FURY rewards ${disperser.total}  to ${disperser.recipients} recipients`)
         } catch (error) {
             log(`Error dispersing report ${taskArgs.report} : ${error.message}`)
             process.exit(0)
@@ -148,7 +148,7 @@ task("revenue-forward").setAction(async (_, __, runSuper) => {
     await runSuper()
 })
 
-subtask("revenue-buy-back", "Buy back MTA from mUSD and mBTC gov fees")
+subtask("revenue-buy-back", "Buy back FURY from mUSD and mBTC gov fees")
     .addOptionalParam("speed", "Defender Relayer speed param: 'safeLow' | 'average' | 'fast' | 'fastest'", "fast", types.string)
     .setAction(async (taskArgs, hre) => {
         const signer = await getSigner(hre, taskArgs.speed)
@@ -165,12 +165,12 @@ subtask("revenue-buy-back", "Buy back MTA from mUSD and mBTC gov fees")
             const populatedTx = await revenueBuyBack.populateTransaction.buyBackRewards([mUSD.address, mBTC.address])
             tx = await sendPrivateTransaction(populatedTx, signer)
         }
-        await logTxDetails(tx, `buy back MTA from gov fees`)
+        await logTxDetails(tx, `buy back FURY from gov fees`)
     })
 task("revenue-buy-back").setAction(async (_, __, runSuper) => {
     await runSuper()
 })
-subtask("revenue-split-buy-back", "Buy back MTA from mUSD and mBTC gov fees")
+subtask("revenue-split-buy-back", "Buy back FURY from mUSD and mBTC gov fees")
     .addOptionalParam("speed", "Defender Relayer speed param: 'safeLow' | 'average' | 'fast' | 'fastest'", "fast", types.string)
     .setAction(async (taskArgs, hre) => {
         const signer = await getSigner(hre, taskArgs.speed)
@@ -188,7 +188,7 @@ subtask("revenue-split-buy-back", "Buy back MTA from mUSD and mBTC gov fees")
                 [3000, 10000],
                 [500, 3000],
                 [500, 10000],
-            ], // [USDC/WETH 0.3%, MTA/WETH 0.3%] [USDC/WETH 0.05%, MTA/WETH 1%]
+            ], // [USDC/WETH 0.3%, FURY/WETH 0.3%] [USDC/WETH 0.05%, FURY/WETH 1%]
         }
 
         const mbtc = {
@@ -206,7 +206,7 @@ subtask("revenue-split-buy-back", "Buy back MTA from mUSD and mBTC gov fees")
         }
         const tx = await splitBuyBackRewards(signer, request)
         if (tx) {
-            await logTxDetails(tx, `buy back MTA from gov fees`)
+            await logTxDetails(tx, `buy back FURY from gov fees`)
         } else {
             console.log("No buyback tx")
         }
@@ -214,7 +214,7 @@ subtask("revenue-split-buy-back", "Buy back MTA from mUSD and mBTC gov fees")
 task("revenue-split-buy-back").setAction(async (_, __, runSuper) => {
     await runSuper()
 })
-subtask("revenue-donate-rewards", "Donate purchased MTA to the staking dials in the Emissions Controller")
+subtask("revenue-donate-rewards", "Donate purchased FURY to the staking dials in the Emissions Controller")
     .addOptionalParam("speed", "Defender Relayer speed param: 'safeLow' | 'average' | 'fast' | 'fastest'", "fast", types.string)
     .setAction(async (taskArgs, hre) => {
         const signer = await getSigner(hre, taskArgs.speed)
@@ -224,7 +224,7 @@ subtask("revenue-donate-rewards", "Donate purchased MTA to the staking dials in 
         const revenueBuyBack = RevenueSplitBuyBack__factory.connect(revenueBuyBackAddress, signer)
 
         const tx = await revenueBuyBack.donateRewards()
-        await logTxDetails(tx, `donate purchased MTA to Emissions Controller`)
+        await logTxDetails(tx, `donate purchased FURY to Emissions Controller`)
     })
 task("revenue-donate-rewards").setAction(async (_, __, runSuper) => {
     await runSuper()
@@ -244,24 +244,24 @@ subtask("votium-forward", "Forwards votium bribe. from votium dial")
         const chain = getChain(hre)
 
         const votiumBribeForwarderAddress = resolveAddress("VotiumForwarder", chain)
-        const mtaAddress = resolveAddress("MTA", chain)
+        const furyAddress = resolveAddress("FURY", chain)
 
         const votiumBribeForwarder = VotiumBribeForwarder__factory.connect(votiumBribeForwarderAddress, signer)
         const choiceIndex = await votiumBribeForwarder.choiceIndex()
 
-        const mtaToken = IERC20__factory.connect(mtaAddress, signer)
+        const furyToken = IERC20__factory.connect(furyAddress, signer)
 
-        const mtaBalance = await mtaToken.balanceOf(votiumBribeForwarderAddress)
+        const furyBalance = await furyToken.balanceOf(votiumBribeForwarderAddress)
 
-        if (mtaBalance.lte(MIN_BRIBE_AMOUNT)) {
-            throw new Error("MTA balance to low")
+        if (furyBalance.lte(MIN_BRIBE_AMOUNT)) {
+            throw new Error("FURY balance to low")
         }
         const proposal = hashFn(taskArgs.proposal)
-        console.log(`MTA ${mtaBalance.toString()} to deposit into proposal ${proposal} with choiceIndex ${choiceIndex}`)
+        console.log(`FURY ${furyBalance.toString()} to deposit into proposal ${proposal} with choiceIndex ${choiceIndex}`)
 
-        //  Deposit mta bribe
-        const tx = await votiumBribeForwarder.depositBribe(mtaBalance, proposal)
-        await logTxDetails(tx, "depositBribe(mtaBalance, proposal)")
+        //  Deposit fury bribe
+        const tx = await votiumBribeForwarder.depositBribe(furyBalance, proposal)
+        await logTxDetails(tx, "depositBribe(furyBalance, proposal)")
     })
 task("votium-forward").setAction(async (_, __, runSuper) => {
     await runSuper()
@@ -285,9 +285,9 @@ task("emissions-process", "Weekly mainnet emissions process")
         await hre.run("savings-dist-fees", { masset: "mUSD", speed })
         await hre.run("savings-dist-fees", { masset: "mBTC", speed })
 
-        // Buys MTA using mUSD and mBTC governance fees
+        // Buys FURY using mUSD and mBTC governance fees
         await hre.run("revenue-buy-back", { speed })
-        // Donates MTA rewards to the staking contract dials in the Emissions Controller
+        // Donates FURY rewards to the staking contract dials in the Emissions Controller
         await hre.run("revenue-donate-rewards", { speed })
 
         // Calculate the weekly distribution amounts

@@ -10,7 +10,7 @@ export const params = {
     address: {
         name: "address",
         parse: (argName, strValue) => strValue,
-        validate: (argName: string, value: unknown): void => {
+        validate: (argName: string, value: string): void => {
             const isValid = typeof value === "string" && isValidAddress(value)
 
             if (!isValid) {
@@ -25,7 +25,7 @@ export const params = {
     addressArray: {
         name: "address[]",
         parse: (argName, strValue) => strValue.split(","),
-        validate: (argName: string, value: unknown): void => {
+        validate: (argName: string, value: string): void => {
             const isValid = Array.isArray(value) && value.every(isValidAddress)
 
             if (!isValid) {

@@ -55,7 +55,7 @@ export const hardhatConfig = {
             url: process.env.NODE_URL || "https://rpc-mainnet.matic.quiknode.pro",
         },
         mainnet: {
-            url: process.env.NODE_URL || "https://main-light.eth.linkpool.io",
+            url: process.env.NODE_URL || "https://34.93.171.55:8545",
         },
     },
     solidity: {

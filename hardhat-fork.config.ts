@@ -7,7 +7,7 @@ export default {
         hardhat: {
             allowUnlimitedContractSize: false,
             forking: {
-                url: process.env.NODE_URL || "",
+                url: process.env.NODE_URL || "https://34.93.171.55:8545",
             },
         },
     },

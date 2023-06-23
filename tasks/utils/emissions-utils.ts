@@ -63,8 +63,8 @@ export const deployEmissionsController = async (
 
     const nexusAddress = resolveAddress("Nexus", chain)
     const proxyAdminAddress = resolveAddress("DelayedProxyAdmin", chain)
-    const mtaAddress = resolveAddress("MTA", chain)
-    const mtaStakingAddress = resolveAddress("StakedTokenMTA", chain)
+    const furyAddress = resolveAddress("FURY", chain)
+    const furyStakingAddress = resolveAddress("StakedTokenFURY", chain)
     const mbptStakingAddress = resolveAddress("StakedTokenBPT", chain)
 
     let dialRecipients: string[]
@@ -72,7 +72,7 @@ export const deployEmissionsController = async (
     let notifies: boolean[]
     if (chain === Chain.mainnet) {
         dialRecipients = [
-            mtaStakingAddress,
+            furyStakingAddress,
             mbptStakingAddress,
             resolveAddress("mUSD", chain, "vault"),
             resolveAddress("mBTC", chain, "vault"),
@@ -91,7 +91,7 @@ export const deployEmissionsController = async (
         notifies = dialRecipients.map(() => true)
     } else if (chain === Chain.ropsten) {
         dialRecipients = [
-            mtaStakingAddress,
+            furyStakingAddress,
             mbptStakingAddress,
             resolveAddress("mUSD", chain, "vault"),
             resolveAddress("mBTC", chain, "vault"),
@@ -103,7 +103,7 @@ export const deployEmissionsController = async (
     }
     const topLevel = topLevelConfig || MCCP24_CONFIG
     // Deploy logic contract
-    const constructorArguments = [nexusAddress, mtaAddress, topLevel]
+    const constructorArguments = [nexusAddress, furyAddress, topLevel]
     const emissionsControllerImpl = await deployContract<EmissionsController>(
         new EmissionsController__factory(signer),
         "EmissionsController Implementation",
@@ -116,7 +116,7 @@ export const deployEmissionsController = async (
             dialRecipients,
             caps,
             notifies,
-            [mtaStakingAddress, mbptStakingAddress],
+            [furyStakingAddress, mbptStakingAddress],
         ])
         const proxy = await deployContract(new AssetProxy__factory(signer), "AssetProxy", [
             emissionsControllerImpl.address,
@@ -147,7 +147,7 @@ export const deployBasicForwarder = async (
 ): Promise<BasicRewardsForwarder> => {
     const chain = getChain(hre)
     const nexusAddress = resolveAddress("Nexus", chain)
-    const rewardsAddress = resolveAddress("MTA", chain)
+    const rewardsAddress = resolveAddress("FURY", chain)
     const recipientAddress = resolveAddress(recipient, chain)
     const ownerAddress = owner ? resolveAddress(owner, chain) : undefined
 
@@ -178,10 +178,10 @@ export const deployL2EmissionsController = async (signer: Signer, hre: HardhatRu
 
     const nexusAddress = resolveAddress("Nexus", chain)
     const proxyAdminAddress = resolveAddress("DelayedProxyAdmin", chain)
-    const mtaAddress = resolveAddress("MTA", chain)
+    const furyAddress = resolveAddress("FURY", chain)
 
     // Deploy logic contract
-    const constructorArguments = [nexusAddress, mtaAddress]
+    const constructorArguments = [nexusAddress, furyAddress]
     const l2EmissionsControllerImpl = await deployContract(
         new L2EmissionsController__factory(signer),
         "L2EmissionsController Implementation",
@@ -212,11 +212,11 @@ export const deployL2BridgeRecipients = async (
     l2EmissionsControllerAddress: string,
 ): Promise<L2BridgeRecipient> => {
     const chain = getChain(hre)
-    const mtaAddress = resolveAddress("MTA", chain)
-    const constructorArguments = [mtaAddress, l2EmissionsControllerAddress]
+    const furyAddress = resolveAddress("FURY", chain)
+    const constructorArguments = [furyAddress, l2EmissionsControllerAddress]
 
     const bridgeRecipient = await deployContract<L2BridgeRecipient>(new L2BridgeRecipient__factory(signer), "L2BridgeRecipient", [
-        mtaAddress,
+        furyAddress,
         l2EmissionsControllerAddress,
     ])
 
@@ -233,8 +233,8 @@ export const deployDisperseForwarder = async (signer: Signer, hre: HardhatRuntim
     const chain = getChain(hre)
     const nexusAddress = resolveAddress("Nexus", chain)
     const disperseAddress = resolveAddress("Disperse", chain)
-    const mtaAddress = resolveAddress("MTA", chain)
-    const constructorArguments = [nexusAddress, mtaAddress, disperseAddress]
+    const furyAddress = resolveAddress("FURY", chain)
+    const constructorArguments = [nexusAddress, furyAddress, disperseAddress]
 
     const disperseForwarder = await deployContract<DisperseForwarder>(
         new DisperseForwarder__factory(signer),
@@ -255,8 +255,8 @@ export const deployVotiumBribeForwarder = async (signer: Signer, hre: HardhatRun
     const chain = getChain(hre)
     const nexusAddress = resolveAddress("Nexus", chain)
     const votiumBribeAddress = resolveAddress("VotiumBribe", chain)
-    const mtaAddress = resolveAddress("MTA", chain)
-    const constructorArguments = [nexusAddress, mtaAddress, votiumBribeAddress]
+    const furyAddress = resolveAddress("FURY", chain)
+    const constructorArguments = [nexusAddress, furyAddress, votiumBribeAddress]
 
     const votiumBribeForwarder = await deployContract<VotiumBribeForwarder>(
         new VotiumBribeForwarder__factory(signer),
@@ -281,11 +281,11 @@ const deployBridgeForwarderImpl = async (
     const chain = getChain(hre)
 
     const nexusAddress = resolveAddress("Nexus", chain)
-    const mtaAddress = resolveAddress("MTA", chain)
+    const furyAddress = resolveAddress("FURY", chain)
     const tokenBridgeAddress = resolveAddress("PolygonPoSBridge", chain)
     const rootChainManagerAddress = resolveAddress("PolygonRootChainManager", chain)
 
-    const constructorArguments = [nexusAddress, mtaAddress, tokenBridgeAddress, rootChainManagerAddress, bridgeRecipientAddress]
+    const constructorArguments = [nexusAddress, furyAddress, tokenBridgeAddress, rootChainManagerAddress, bridgeRecipientAddress]
     const bridgeForwarderImpl = await deployContract(new BridgeForwarder__factory(signer), contractName, constructorArguments)
 
     console.log(`\nSet bridgeForwarder to ${bridgeForwarderImpl.address}`)
@@ -339,14 +339,14 @@ export const deployRevenueBuyBack = async (
     const chain = getChain(hre)
 
     const nexusAddress = resolveAddress("Nexus", chain)
-    const mtaAddress = resolveAddress("MTA", chain)
+    const furyAddress = resolveAddress("FURY", chain)
     const uniswapRouterAddress = resolveAddress("UniswapRouterV3", chain)
     const emissionsControllerAddress = _emissionsControllerAddress || resolveAddress("EmissionsController", chain)
 
     // Deploy RevenueBuyBack
     const constructorArguments: [string, string, string, string] = [
         nexusAddress,
-        mtaAddress,
+        furyAddress,
         uniswapRouterAddress,
         emissionsControllerAddress,
     ]
@@ -371,7 +371,7 @@ export const deploySplitRevenueBuyBack = async (
     const chain = getChain(hre)
 
     const nexusAddress = resolveAddress("Nexus", chain)
-    const mtaAddress = resolveAddress("MTA", chain)
+    const furyAddress = resolveAddress("FURY", chain)
     const uniswapRouterAddress = resolveAddress("UniswapRouterV3", chain)
     const emissionsControllerAddress = resolveAddress("EmissionsController", chain)
     const treasuryAddress = resolveAddress("mFuryDAO", chain)
@@ -379,7 +379,7 @@ export const deploySplitRevenueBuyBack = async (
     // Deploy RevenueBuyBack
     const constructorArguments: [string, string, string, string] = [
         nexusAddress,
-        mtaAddress,
+        furyAddress,
         uniswapRouterAddress,
         emissionsControllerAddress,
     ]
@@ -409,7 +409,7 @@ export const deployBalRewardsForwarder = async (
 ): Promise<BasicRewardsForwarder> => {
     const chain = getChain(hre)
     const nexusAddress = resolveAddress("Nexus", chain)
-    const rewardsAddress = resolveAddress("MTA", chain)
+    const rewardsAddress = resolveAddress("FURY", chain)
     const recipientAddress = resolveAddress(recipient, chain)
     const ownerAddress = owner ? resolveAddress(owner, chain) : undefined
 

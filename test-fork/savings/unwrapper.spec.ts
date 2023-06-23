@@ -16,7 +16,7 @@ import {
     Unwrapper,
     Unwrapper__factory,
 } from "types/generated"
-import { Chain, DEAD_ADDRESS, simpleToExactAmount, assertBNClosePercent, DAI, WBTC, MTA, alUSD, mUSD, mBTC, HBTC, USDT } from "index"
+import { Chain, DEAD_ADDRESS, simpleToExactAmount, assertBNClosePercent, DAI, WBTC, FURY, alUSD, mUSD, mBTC, HBTC, USDT } from "index"
 import { BigNumber } from "@ethersproject/bignumber"
 import { getChainAddress } from "tasks/utils/networkAddressFactory"
 import { upgradeContract } from "@utils/deploy"
@@ -276,7 +276,7 @@ context("Unwrapper", () => {
     it("Upgrades the imUSD Vault", async () => {
         const priceCoeff = simpleToExactAmount(1, 18)
         const boostCoeff = 9
-        const constructorArguments = [nexusAddress, mUSD.address, boostDirectorAddress, priceCoeff, boostCoeff, MTA.address]
+        const constructorArguments = [nexusAddress, mUSD.address, boostDirectorAddress, priceCoeff, boostCoeff, FURY.address]
         const saveVaultImpl = await deployContract<BoostedVault>(
             new BoostedVault__factory(deployer),
             "mFury: mUSD Savings Vault",
@@ -410,7 +410,7 @@ context("Unwrapper", () => {
             boostDirector,
             priceCoeff,
             boostCoeff,
-            MTA.address,
+            FURY.address,
         ])
         await upgradeContract<BoostedVault>(
             BoostedVault__factory as unknown as ContractFactory,

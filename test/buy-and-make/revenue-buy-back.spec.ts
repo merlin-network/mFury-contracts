@@ -78,8 +78,8 @@ describe("RevenueBuyBack", () => {
         // Add rewards to Uniswap
         await rewardsToken.transfer(uniswap.address, simpleToExactAmount(500000))
         // Add bAsset to rewards exchange rates
-        await uniswap.setRate(bAsset1.address, rewardsToken.address, simpleToExactAmount(80, 16)) // 0.8 MTA/USD
-        await uniswap.setRate(bAsset2.address, rewardsToken.address, simpleToExactAmount(50, 33)) // 50,000 MTA/BTC
+        await uniswap.setRate(bAsset1.address, rewardsToken.address, simpleToExactAmount(80, 16)) // 0.8 FURY/USD
+        await uniswap.setRate(bAsset2.address, rewardsToken.address, simpleToExactAmount(50, 33)) // 50,000 FURY/BTC
         // Uniswap paths
         uniswapMusdBasset1Paths = encodeUniswapPath([bAsset1.address, DEAD_ADDRESS, rewardsToken.address], [3000, 3000])
         uniswapMbtcBasset2Paths = encodeUniswapPath([bAsset2.address, DEAD_ADDRESS, rewardsToken.address], [3000, 3000])
@@ -233,7 +233,7 @@ describe("RevenueBuyBack", () => {
             })
         })
     })
-    describe("buy back MTA rewards", () => {
+    describe("buy back FURY rewards", () => {
         const musdRevenue = simpleToExactAmount(20000)
         const mbtcRevenue = simpleToExactAmount(2)
         beforeEach(async () => {
@@ -249,46 +249,46 @@ describe("RevenueBuyBack", () => {
             await revenueBuyBack.notifyRedistributionAmount(mUSD.address, musdRevenue)
             await revenueBuyBack.notifyRedistributionAmount(mBTC.address, mbtcRevenue)
         })
-        it("should sell mUSD for MTA", async () => {
+        it("should sell mUSD for FURY", async () => {
             expect(await mUSD.balanceOf(revenueBuyBack.address), "revenueBuyBack's mUSD Bal before").to.eq(musdRevenue)
             expect(await bAsset1.balanceOf(mUSD.address), "mAsset's bAsset Bal before").to.eq(musdRevenue)
 
             const tx = revenueBuyBack.connect(sa.keeper.signer).buyBackRewards([mUSD.address])
 
             const bAsset1Amount = musdRevenue.mul(98).div(100)
-            // Exchange rate = 0.80 MTA/USD = 8 / 18
+            // Exchange rate = 0.80 FURY/USD = 8 / 18
             // Swap fee is 0.3% = 997 / 1000
             const rewardsAmount = bAsset1Amount.mul(8).div(10).mul(997).div(1000)
             await expect(tx).to.emit(revenueBuyBack, "BuyBackRewards").withArgs(mUSD.address, musdRevenue, bAsset1Amount, rewardsAmount)
 
             expect(await mUSD.balanceOf(revenueBuyBack.address), "revenueBuyBack's mUSD Bal after").to.eq(0)
         })
-        it("should sell mBTC for MTA", async () => {
+        it("should sell mBTC for FURY", async () => {
             expect(await mBTC.balanceOf(revenueBuyBack.address), "revenueBuyBack's mBTC Bal before").to.eq(mbtcRevenue)
             expect(await bAsset2.balanceOf(mBTC.address), "mAsset's bAsset Bal before").to.eq(mbtcRevenue.div(1e12))
 
             const tx = revenueBuyBack.connect(sa.keeper.signer).buyBackRewards([mBTC.address])
 
             const bAsset2Amount = mbtcRevenue.mul(98).div(100).div(1e12)
-            // Exchange rate = 50,000 MTA/BTC
+            // Exchange rate = 50,000 FURY/BTC
             // Swap fee is 0.3% = 997 / 1000
             const rewardsAmount = bAsset2Amount.mul(50000).mul(997).div(1000).mul(1e12)
             await expect(tx).to.emit(revenueBuyBack, "BuyBackRewards").withArgs(mBTC.address, mbtcRevenue, bAsset2Amount, rewardsAmount)
 
             expect(await mBTC.balanceOf(revenueBuyBack.address), "revenueBuyBack's mBTC Bal after").to.eq(0)
         })
-        it("should sell mUSD and mBTC for MTA", async () => {
+        it("should sell mUSD and mBTC for FURY", async () => {
             const tx = revenueBuyBack.connect(sa.keeper.signer).buyBackRewards([mUSD.address, mBTC.address])
 
             //
             const bAsset1Amount = musdRevenue.mul(98).div(100)
-            // Exchange rate = 0.80 MTA/USD = 8 / 18
+            // Exchange rate = 0.80 FURY/USD = 8 / 18
             // Swap fee is 0.3% = 997 / 1000
             const musdRewardsAmount = bAsset1Amount.mul(8).div(10).mul(997).div(1000)
             await expect(tx).to.emit(revenueBuyBack, "BuyBackRewards").withArgs(mUSD.address, musdRevenue, bAsset1Amount, musdRewardsAmount)
 
             const bAsset2Amount = mbtcRevenue.mul(98).div(100).div(1e12)
-            // Exchange rate = 50,000 MTA/BTC
+            // Exchange rate = 50,000 FURY/BTC
             // Swap fee is 0.3% = 997 / 1000
             const mbtcRewardsAmount = bAsset2Amount.mul(50000).mul(997).div(1000).mul(1e12)
             await expect(tx).to.emit(revenueBuyBack, "BuyBackRewards").withArgs(mBTC.address, mbtcRevenue, bAsset2Amount, mbtcRewardsAmount)

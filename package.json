@@ -1,7 +1,8 @@
 {
-    "name": "@mfury/protocol",
-    "version": "2.4.3",
+    "name": "@mstable/protocol",
+    "version": "3.0.0",
     "description": "mFury Contracts",
+    "private": true,
     "author": "mFury <info@mfury.org>",
     "license": "AGPL-3.0-or-later",
     "directories": {

@@ -11,7 +11,7 @@ import { ERC20Burnable } from "@openzeppelin/contracts/token/ERC20/extensions/ER
  */
 contract MintableToken is ERC20, GovernedMinterRole, ERC20Burnable {
     constructor(address _nexus, address _initialRecipient)
-        ERC20("Meta", "MTA")
+        ERC20("Meta", "FURY")
         GovernedMinterRole(_nexus)
     {
         // 100m initial supply

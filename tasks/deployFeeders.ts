@@ -120,14 +120,14 @@ task("deployAlcxInt", "Deploy Alchemix integration contract for alUSD Feeder Poo
 task("deployVault", "Deploy Feeder Pool with boosted dual vault")
     .addParam("name", "Token name of the vault. eg mUSD/alUSD fPool Vault", undefined, types.string)
     .addParam("symbol", "Token symbol of the vault. eg v-fPmUSD/alUSD", undefined, types.string)
-    .addParam("boosted", "Rewards are boosted by staked MTA (vMTA)", undefined, types.boolean)
+    .addParam("boosted", "Rewards are boosted by staked FURY (vFURY)", undefined, types.boolean)
     .addParam(
         "stakingToken",
-        "Symbol of token that is being staked. Feeder Pool is just the fAsset. eg mUSD, MTA, GUSD, alUSD",
+        "Symbol of token that is being staked. Feeder Pool is just the fAsset. eg mUSD, FURY, GUSD, alUSD",
         undefined,
         types.string,
     )
-    .addOptionalParam("rewardToken", "Token symbol of reward. eg MTA", "MTA", types.string)
+    .addOptionalParam("rewardToken", "Token symbol of reward. eg FURY", "FURY", types.string)
     .addOptionalParam("dualRewardToken", "Token symbol of second reward. eg WMATIC, ALCX, QI", undefined, types.string)
     .addOptionalParam("price", "Price coefficient is the value of the mAsset in USD. eg mUSD/USD = 1, mBTC/USD", 1, types.int)
     .addOptionalParam("boostCoeff", "Boost coefficient", 9, types.int)
@@ -145,7 +145,7 @@ task("deployVault", "Deploy Feeder Pool with boosted dual vault")
         // Staking Token is for Feeder Pool, Savings Vault or the token itself. eg
         // alUSD will stake feeder pool in a v-fPmUSD/alUSD vault
         // mUSD will stake savings vault in a v-imUSD vault
-        // MTA will stake MTA in a v-MTA vault
+        // FURY will stake FURY in a v-FURY vault
         const stakingTokenAddress = stakingToken.feederPool || stakingToken.savings || stakingToken.address
 
         const rewardToken = tokens.find((t) => t.symbol === taskArgs.rewardToken && t.chain === chain)

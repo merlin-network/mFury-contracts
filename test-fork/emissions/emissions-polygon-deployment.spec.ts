@@ -3,7 +3,7 @@ import { ethers, network } from "hardhat"
 import { impersonate } from "@utils/fork"
 import { Signer } from "ethers"
 import { resolveAddress } from "tasks/utils/networkAddressFactory"
-import { Chain, MTA, PBAL, PFRAX, PMTA, PmUSD } from "tasks/utils/tokens"
+import { Chain, FURY, PBAL, PFRAX, PFURY, PmUSD } from "tasks/utils/tokens"
 import {
     BalRewardsForwarder,
     BalRewardsForwarder__factory,
@@ -35,7 +35,7 @@ context("Fork test Emissions Controller on polygon", () => {
     let governor: Signer
     let stateSyncer: Signer
     let emissionsController: L2EmissionsController
-    let mta: IERC20
+    let fury: IERC20
     let childChainManager: IStateReceiver
     let musdVault: InitializableRewardsDistributionRecipient
     let balRewardsForwarder: BalRewardsForwarder
@@ -59,7 +59,7 @@ context("Fork test Emissions Controller on polygon", () => {
         nexusAddress = await resolveAddress("Nexus", chain)
 
         emissionsController = L2EmissionsController__factory.connect(resolveAddress("EmissionsController", chain), ops)
-        mta = IERC20__factory.connect(PMTA.address, ops)
+        fury = IERC20__factory.connect(PFURY.address, ops)
         musdVault = InitializableRewardsDistributionRecipient__factory.connect(PmUSD.vault, governor)
 
         childChainManager = IStateReceiver__factory.connect(resolveAddress("PolygonChildChainManager", chain), stateSyncer)
@@ -67,7 +67,7 @@ context("Fork test Emissions Controller on polygon", () => {
 
     const deposit = async (bridgeRecipient: string, amount: BN) => {
         const amountData = abiCoder.encode(["uint256"], [amount])
-        const syncData = abiCoder.encode(["address", "address", "bytes"], [bridgeRecipient, MTA.address, amountData])
+        const syncData = abiCoder.encode(["address", "address", "bytes"], [bridgeRecipient, FURY.address, amountData])
         const data = abiCoder.encode(["bytes32", "bytes"], [keccak256(toUtf8Bytes("DEPOSIT")), syncData])
         await childChainManager.onStateReceive(1, data)
     }
@@ -83,33 +83,33 @@ context("Fork test Emissions Controller on polygon", () => {
             await musdVault.setRewardsDistribution(emissionsController.address)
         })
         it("Deposit 20k to mUSD bridge recipient", async () => {
-            expect(await mta.balanceOf(PmUSD.bridgeRecipient), "bridge recipient bal before").to.eq(0)
+            expect(await fury.balanceOf(PmUSD.bridgeRecipient), "bridge recipient bal before").to.eq(0)
 
             await deposit(PmUSD.bridgeRecipient, depositAmount)
 
-            expect(await mta.balanceOf(PmUSD.bridgeRecipient), "bridge recipient bal after").to.eq(depositAmount)
+            expect(await fury.balanceOf(PmUSD.bridgeRecipient), "bridge recipient bal after").to.eq(depositAmount)
         })
         it("Distribute rewards", async () => {
-            const mtaBalBefore = await mta.balanceOf(PmUSD.vault)
-            expect(mtaBalBefore, "vault bal before").to.gt(0)
+            const furyBalBefore = await fury.balanceOf(PmUSD.vault)
+            expect(furyBalBefore, "vault bal before").to.gt(0)
 
             await emissionsController.distributeRewards([PmUSD.vault])
 
-            const mtaBalAfter = await mta.balanceOf(PmUSD.vault)
-            expect(mtaBalAfter.sub(mtaBalBefore), "vault bal change").to.eq(depositAmount)
+            const furyBalAfter = await fury.balanceOf(PmUSD.vault)
+            expect(furyBalAfter.sub(furyBalBefore), "vault bal change").to.eq(depositAmount)
         })
     })
     describe("FRAX Farm", () => {
         const depositAmount = simpleToExactAmount(10000)
 
         it("Deposit 10k to FRAX Farm", async () => {
-            const mtaBalBefore = await mta.balanceOf(PFRAX.bridgeRecipient)
-            expect(mtaBalBefore, "FRAX Farm bal before").to.gt(0)
+            const furyBalBefore = await fury.balanceOf(PFRAX.bridgeRecipient)
+            expect(furyBalBefore, "FRAX Farm bal before").to.gt(0)
 
             await deposit(PFRAX.bridgeRecipient, depositAmount)
 
-            const mtaBalAfter = await mta.balanceOf(PFRAX.bridgeRecipient)
-            expect(mtaBalAfter.sub(mtaBalBefore), "FRAX Farm bal change").to.eq(depositAmount)
+            const furyBalAfter = await fury.balanceOf(PFRAX.bridgeRecipient)
+            expect(furyBalAfter.sub(furyBalBefore), "FRAX Farm bal change").to.eq(depositAmount)
         })
     })
     describe("Balancer Pool", () => {
@@ -123,18 +123,18 @@ context("Fork test Emissions Controller on polygon", () => {
         let bridgeRecipient: L2BridgeRecipient
         let endRecipient: IRewardsDistributionRecipient
         before("deploy recipients", async () => {
-            forwarderEndRecipient = resolveAddress("BpMTAStreamer", chain)
+            forwarderEndRecipient = resolveAddress("BpFURYStreamer", chain)
             // Deploy a new bridge recipient
-            bridgeRecipient = await deployL2BridgeRecipient(governor, mta.address, emissionsController.address)
+            bridgeRecipient = await deployL2BridgeRecipient(governor, fury.address, emissionsController.address)
             // Deploy a new end recipient(Forwarder)
-            balRewardsForwarder = await new BalRewardsForwarder__factory(governor).deploy(nexusAddress, mta.address)
+            balRewardsForwarder = await new BalRewardsForwarder__factory(governor).deploy(nexusAddress, fury.address)
             await balRewardsForwarder.initialize(emissionsController.address, forwarderEndRecipient)
             endRecipient = balRewardsForwarder as IRewardsDistributionRecipient
         })
         it("Deposit 15k to Stream Forwarder", async () => {
-            expect(await mta.balanceOf(bridgeRecipient.address), "Stream bal before").to.eq(0)
+            expect(await fury.balanceOf(bridgeRecipient.address), "Stream bal before").to.eq(0)
             await deposit(bridgeRecipient.address, depositAmount)
-            expect(await mta.balanceOf(bridgeRecipient.address), "Stream bal after").to.eq(depositAmount)
+            expect(await fury.balanceOf(bridgeRecipient.address), "Stream bal after").to.eq(depositAmount)
         })
         it("Add recipient", async () => {
             expect(await emissionsController.recipientMap(bridgeRecipient.address), "Recipient not set").to.eq(ZERO_ADDRESS)
@@ -142,22 +142,22 @@ context("Fork test Emissions Controller on polygon", () => {
             expect(await emissionsController.recipientMap(endRecipient.address), "Recipient set").to.eq(bridgeRecipient.address)
         })
         it("Distribute rewards", async () => {
-            const mtaBalBefore = await mta.balanceOf(bridgeRecipient.address)
-            const mtaForwarderBalBefore = await mta.balanceOf(forwarderEndRecipient)
+            const furyBalBefore = await fury.balanceOf(bridgeRecipient.address)
+            const furyForwarderBalBefore = await fury.balanceOf(forwarderEndRecipient)
 
-            expect(mtaBalBefore, "forwarder bal before").to.gt(0)
-            expect(mtaForwarderBalBefore, "streamer bal before").to.eq(0)
+            expect(furyBalBefore, "forwarder bal before").to.gt(0)
+            expect(furyForwarderBalBefore, "streamer bal before").to.eq(0)
 
-            // AT  BLOCK , balancer has not add yet the MTA reward on polygon gauge
+            // AT  BLOCK , balancer has not add yet the FURY reward on polygon gauge
             await expect(emissionsController.distributeRewards([endRecipient.address])).to.be.revertedWith("Invalid token or no new reward")
 
             // *******NOTE BEGIN************//
             // If balancer team adds the distributor and the token into the gauge this is the expected behavior
             // await expect(tx).to.emit(balRewardsForwarder, "RewardsReceived").withArgs(depositAmount)
-            // const mtaBalAfter = await mta.balanceOf(bridgeRecipient.address)
-            // const mtaForwarderBalAfter = await mta.balanceOf(forwarderEndRecipient)
-            // expect(mtaBalAfter.sub(mtaBalBefore), "forwarder bal change").to.eq(depositAmount)
-            // expect(mtaForwarderBalAfter.sub(mtaForwarderBalBefore), "streamer bal change").to.eq(depositAmount)
+            // const furyBalAfter = await fury.balanceOf(bridgeRecipient.address)
+            // const furyForwarderBalAfter = await fury.balanceOf(forwarderEndRecipient)
+            // expect(furyBalAfter.sub(furyBalBefore), "forwarder bal change").to.eq(depositAmount)
+            // expect(furyForwarderBalAfter.sub(furyForwarderBalBefore), "streamer bal change").to.eq(depositAmount)
             // ******** NOTE END***********//
         })
     })

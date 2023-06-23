@@ -45,7 +45,7 @@ import { MassetLibraryAddresses } from "types/generated/factories/Masset__factor
 import { deployContract, logTxDetails } from "./utils/deploy-utils"
 import { getChain, getChainAddress, resolveAddress } from "./utils/networkAddressFactory"
 import { getSigner } from "./utils/signerFactory"
-import { PMTA, PmUSD, PWMATIC, tokens } from "./utils/tokens"
+import { PFURY, PmUSD, PWMATIC, tokens } from "./utils/tokens"
 
 // FIXME: this import does not work for some reason
 // import { sleep } from "@utils/time"
@@ -488,7 +488,7 @@ task("deploy-vimusd", "Deploy Polygon imUSD staking contract v-imUSD")
             [
                 nexusAddress,
                 PmUSD.savings, // imUSD
-                PMTA.address, // MTA bridged to Polygon
+                PFURY.address, // FURY bridged to Polygon
                 PWMATIC.address, // Wrapped Matic on Polygon
                 ONE_DAY.mul(7), // 7 days
             ],
@@ -532,7 +532,7 @@ task("upgrade-vimusd", "Upgrade Polygon imUSD staking contract v-imUSD")
             [
                 nexusAddress,
                 PmUSD.savings, // imUSD
-                PMTA.address, // MTA bridged to Polygon
+                PFURY.address, // FURY bridged to Polygon
                 PWMATIC.address, // Wrapped Matic on Polygon
                 ONE_DAY.mul(91), // 3 months
             ],
