@@ -68,7 +68,7 @@ const expectDialVotesHistoryForDials = async (
             }),
         ),
     )
-    return await expectations
+    return expectations
 }
 const expectDialVotesHistoryWithoutChangeOnWeights = async (
     emissionsController: EmissionsController,
